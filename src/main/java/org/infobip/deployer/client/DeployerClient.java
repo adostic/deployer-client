@@ -22,8 +22,8 @@ public class DeployerClient {
 	private Proxy proxy;
 
 
-	public DeployerClient(Proxy proxy) {
-		this.proxy = proxy;
+	public DeployerClient(String uri) throws Exception {
+		this.proxy = new Proxy(uri);
 	}
 
 	public Map<String, Object> deploy(DeployContext deployContext) throws Exception {
@@ -31,8 +31,6 @@ public class DeployerClient {
 
 		final BasicNameValuePair deployContextPair = new BasicNameValuePair("deployContext", OBJECT_MAPPER.writeValueAsString(deployContext));
 		basicNameValuePairs.add(deployContextPair);
-		System.out.println(deployContextPair);
-
 		return proxy.post(DEPLOY_ACTION, basicNameValuePairs);
 	}
 
@@ -40,13 +38,8 @@ public class DeployerClient {
 		return proxy.get(STATUS_ACTION);
 	}
 
-	public void test() throws Exception {
-//		proxy.get(DEPLOY_ACTION + "/test");
-		final List<NameValuePair> basicNameValuePairs = new ArrayList<NameValuePair>(1);
-
-		basicNameValuePairs.add(new BasicNameValuePair("serverId", "2"));
-
-		proxy.post(DEPLOY_ACTION + "/test", basicNameValuePairs);
+	public Map<String, Object> getCurrentState() {
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 }

@@ -6,7 +6,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.infobip.deployer.client.DeployerClient;
 import org.infobip.deployer.client.data.DeployContext;
 import org.infobip.deployer.client.data.DeployContextBuilder;
-import org.infobip.deployer.client.internal.Proxy;
 
 /**
  *
@@ -18,8 +17,8 @@ public class App {
 	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
  
 	public static void main(String[] args) throws Exception {
-		final Proxy proxy = new Proxy("http://localhost:8080");
-		DeployerClient deployerClient = new DeployerClient(proxy);
+
+		DeployerClient deployerClient = new DeployerClient("http://localhost:8080");
 
 		Map<String, String> installMap = new HashMap<>(4);
 		installMap.put("CentOS.10.43", "Task Scheduler");
@@ -31,7 +30,8 @@ public class App {
 				.uninstallApplicationInstanceMap(uninstallMap).build();
 
 		deployerClient.deploy(deployContext);
-		
+
+		deployerClient.getCurrentState();
 
 	}
 
