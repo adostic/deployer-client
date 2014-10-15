@@ -1,5 +1,6 @@
 package org.infobip.deployer.client.data;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * @author adostic
  */
-public class Environment {
+public class Environment implements Serializable {
     private List<Server> serverList;
     private List<DeployedInstance> listOfDeployedApplications;
 

@@ -1,5 +1,6 @@
 package org.infobip.deployer.client.internal;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -12,7 +13,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.infobip.deployer.client.util.JsonUtil;
 
 /**
  *
@@ -21,38 +22,48 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class Proxy {
 
-	private String deplpyerUrl;
+	private String deployerUrl;
 
 	public Proxy(String deployerUrl) throws Exception {
 		if (StringUtils.isEmpty(deployerUrl)) {
 			throw new Exception("DeployerUrl is missing");
 		}
 
-		this.deplpyerUrl = deployerUrl;
+		this.deployerUrl = deployerUrl;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> get(String action) throws Exception {
-		return execute(new HttpGet(deplpyerUrl + "/" + action));
+		return execute(new HttpGet(deployerUrl + "/" + action), Map.class);
+	}
+
+	public <T> T get(String action, Class<T> clazz) throws Exception {
+		return execute(new HttpGet(deployerUrl + "/" + action), clazz);
 	}
 
 	public Map<String, Object> post(String action, List<NameValuePair> data) throws Exception {
-		HttpPost request = new HttpPost(deplpyerUrl + "/" + action);
+		HttpPost request = new HttpPost(deployerUrl + "/" + action);
 		if (data != null) {
 			request.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
 		}
 		return execute(request);
 	}
 
+	@SuppressWarnings("unchecked")
 	private Map<String, Object> execute(HttpUriRequest request) throws Exception {
+		return execute(request, Map.class);
+	}
 
+	private <T> T execute(HttpUriRequest request, Class<T> clazz) throws Exception {
+		return JsonUtil.getObject(executeMethod(request), clazz);
+	}
 
+	private String executeMethod(HttpUriRequest request) throws IOException {
 		DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
 		ResponseHandler<String> responseHandler = new BasicResponseHandler();
-		String result = defaultHttpClient.execute(request, responseHandler);
-
-		ObjectMapper mapper = new ObjectMapper();
-		Map<String, Object> mappedJson = mapper.readValue(result, Map.class);
-
-		return mappedJson;
+		return defaultHttpClient.execute(request, responseHandler);
 	}
+
+
+
 }

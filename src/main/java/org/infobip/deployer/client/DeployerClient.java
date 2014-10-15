@@ -6,7 +6,9 @@ import java.util.Map;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.infobip.deployer.client.data.Application;
 import org.infobip.deployer.client.data.DeployContext;
+import org.infobip.deployer.client.data.Environment;
 import org.infobip.deployer.client.internal.Proxy;
 
 /**
@@ -19,6 +21,7 @@ public class DeployerClient {
 	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 	private static final String DEPLOY_ACTION = "deploy";
 	private static final String STATUS_ACTION = "status";
+	private static final String CURRENT_STATE_ACTION = "getCurrentState";
 	private Proxy proxy;
 
 
@@ -38,8 +41,12 @@ public class DeployerClient {
 		return proxy.get(STATUS_ACTION);
 	}
 
-	public Map<String, Object> getCurrentState() {
-		throw new UnsupportedOperationException("Not supported yet.");
+	public Environment getCurrentState() throws Exception {
+		return proxy.get(CURRENT_STATE_ACTION, Environment.class);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Application> getApplications() throws Exception {
+		return proxy.get(DEPLOY_ACTION, List.class);
+	}
 }
