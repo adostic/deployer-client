@@ -1,35 +1,44 @@
 package org.infobip.deployer.client.data;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
  * @author adostic
  */
 public class Environment implements Serializable {
-    private List<Server> serverList;
-    private List<DeployedInstance> listOfDeployedApplications;
+    private ArrayList<Server> serverList;
+    private ArrayList<DeployedInstance> applicationList;
 
-    public Environment(List<Server> serverList, List<DeployedInstance> listOfDeployedApplications) {
+	public Environment() {
+	}
+
+//    public Environment(List<Server> serverList, List<DeployedInstance> listOfDeployedApplications) {
+//        this.serverList = serverList;
+//        this.listOfDeployedApplications = listOfDeployedApplications;
+//    }
+
+    public ArrayList<Server> getServerList() {
+        return serverList;
+    }
+
+    public void setServerList(ArrayList<Server> serverList) {
         this.serverList = serverList;
-        this.listOfDeployedApplications = listOfDeployedApplications;
     }
 
-    public List<Server> getServerList() {
-        return Collections.unmodifiableList(serverList);
+    public ArrayList<DeployedInstance> getApplicationList() {
+        return applicationList;
     }
 
-    public void setServerList(List<Server> serverList) {
-        this.serverList = Collections.unmodifiableList(serverList);
+    public void setApplicationList(ArrayList<DeployedInstance> applicationList) {
+        this.applicationList = applicationList;
     }
 
-    public List<DeployedInstance> getListOfDeployedApplications() {
-        return Collections.unmodifiableList(listOfDeployedApplications);
-    }
+	@Override
+	public String toString() {
+		return "Environment{" + "serverList=" + serverList + ", applicationList=" + applicationList + '}';
+	}
 
-    public void setListOfDeployedApplications(List<DeployedInstance> listOfDeployedApplications) {
-        this.listOfDeployedApplications = Collections.unmodifiableList(listOfDeployedApplications);
-    }
+	
 }

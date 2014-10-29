@@ -1,5 +1,6 @@
 package org.infobip.deployer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.infobip.deployer.client.data.Application;
 import org.infobip.deployer.client.data.DeployContext;
 import org.infobip.deployer.client.data.DeployContextBuilder;
 import org.infobip.deployer.client.data.Environment;
+import org.infobip.deployer.client.data.Instance;
 
 /**
  *
@@ -19,7 +21,6 @@ public class App {
 	public static void main(String[] args) throws Exception {
 
 		DeployerClient deployerClient = new DeployerClient("http://192.168.3.90:80");
-//		DeployerClient deployerClient = new DeployerClient("http://localhost:8080");
 
 		Map<String, String> installMap = new HashMap<>(4);
 
@@ -38,7 +39,7 @@ public class App {
 		List<Application> applications = deployerClient.getApplications();
 		System.out.println(applications);
 
-		Map<String, Object> status = deployerClient.status();
+		ArrayList<Instance> status = deployerClient.status();
 		System.out.println(status);
 	}
 

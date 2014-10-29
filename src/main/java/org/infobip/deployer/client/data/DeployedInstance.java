@@ -10,7 +10,8 @@ import java.util.Objects;
 public class DeployedInstance {
 
 	private Integer id;
-	private Integer applicationInstanceId;
+	private String applicationName;
+	private String serverName;
 	private Boolean isDeployed;
 
 	public DeployedInstance() {
@@ -24,14 +25,6 @@ public class DeployedInstance {
 		this.id = id;
 	}
 
-	public Integer getApplicationInstanceId() {
-		return applicationInstanceId;
-	}
-
-	public void setApplicationInstanceId(Integer applicationInstanceId) {
-		this.applicationInstanceId = applicationInstanceId;
-	}
-
 	public Boolean isIsDeployed() {
 		return isDeployed;
 	}
@@ -40,12 +33,29 @@ public class DeployedInstance {
 		this.isDeployed = isDeployed;
 	}
 
+	public String getApplicationName() {
+		return applicationName;
+	}
+
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName;
+	}
+
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
+
 	@Override
 	public int hashCode() {
-		int hash = 5;
-		hash = 53 * hash + Objects.hashCode(this.id);
-		hash = 53 * hash + Objects.hashCode(this.applicationInstanceId);
-		hash = 53 * hash + Objects.hashCode(this.isDeployed);
+		int hash = 7;
+		hash = 41 * hash + Objects.hashCode(this.id);
+		hash = 41 * hash + Objects.hashCode(this.applicationName);
+		hash = 41 * hash + Objects.hashCode(this.serverName);
+		hash = 41 * hash + Objects.hashCode(this.isDeployed);
 		return hash;
 	}
 
@@ -61,7 +71,10 @@ public class DeployedInstance {
 		if (!Objects.equals(this.id, other.id)) {
 			return false;
 		}
-		if (!Objects.equals(this.applicationInstanceId, other.applicationInstanceId)) {
+		if (!Objects.equals(this.applicationName, other.applicationName)) {
+			return false;
+		}
+		if (!Objects.equals(this.serverName, other.serverName)) {
 			return false;
 		}
 		if (!Objects.equals(this.isDeployed, other.isDeployed)) {
@@ -72,7 +85,8 @@ public class DeployedInstance {
 
 	@Override
 	public String toString() {
-		return "DeployedInstance{" + "id=" + id + ", applicationInstanceId=" + applicationInstanceId + ", isDeployed=" + isDeployed + '}';
+		return "DeployedInstance{" + "id=" + id + ", applicationName=" + applicationName + ", serverName=" + serverName + ", isDeployed=" + isDeployed + '}';
 	}
 
+	
 }

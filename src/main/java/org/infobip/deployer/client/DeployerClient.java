@@ -7,8 +7,11 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.infobip.deployer.client.data.Application;
+import org.infobip.deployer.client.data.ApplicationList;
 import org.infobip.deployer.client.data.DeployContext;
 import org.infobip.deployer.client.data.Environment;
+import org.infobip.deployer.client.data.Instance;
+import org.infobip.deployer.client.data.InstanceList;
 import org.infobip.deployer.client.internal.Proxy;
 
 /**
@@ -22,6 +25,7 @@ public class DeployerClient {
 	private static final String DEPLOY_ACTION = "deploy";
 	private static final String STATUS_ACTION = "status";
 	private static final String CURRENT_STATE_ACTION = "getCurrentState";
+	private static final String APPLICATION_ACTION = "getAllApplication";
 	private Proxy proxy;
 
 
@@ -37,8 +41,8 @@ public class DeployerClient {
 		return proxy.post(DEPLOY_ACTION, basicNameValuePairs);
 	}
 
-	public Map<String, Object> status() throws Exception {
-		return proxy.get(STATUS_ACTION);
+	public ArrayList<Instance> status() throws Exception {
+		return proxy.get(STATUS_ACTION, InstanceList.class).getAllInstances();
 	}
 
 	public Environment getCurrentState() throws Exception {
@@ -47,6 +51,6 @@ public class DeployerClient {
 
 	@SuppressWarnings("unchecked")
 	public List<Application> getApplications() throws Exception {
-		return proxy.get(DEPLOY_ACTION, List.class);
+		return proxy.get(APPLICATION_ACTION, ApplicationList.class).getApplicationList();
 	}
 }

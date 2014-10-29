@@ -27,6 +27,7 @@ public class JsonUtil {
 				return true;
 			}
 		});
+//		OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	}
 
 
